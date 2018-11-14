@@ -200,8 +200,7 @@ html *
 .contact-text-align{
 	display: flex;
 	align-items: center;
-  	justify-content: center;
-
+  justify-content: center;
 }
 
 .contact-main-text{
@@ -309,4 +308,9 @@ span.contact-main-text{
 	font-weight: lighter;
 	border-color: #fff;
 	transition: all 400ms ease-in;
+}
+
+.is-flex-center{
+	display: flex;
+	justify-content: center;
 }
