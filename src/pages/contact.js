@@ -1,9 +1,14 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import Spinner from 'react-spinkit'
+
 class Contact extends Component {
   constructor () {
     super()
     this.state = {
+      loading: false,
       form: {
         name: '',
         email: '',
@@ -20,20 +25,27 @@ class Contact extends Component {
   }
 
   async handleSubmit (e) {
+    this.setState({
+      loading: true
+    })
     var {form} = this.state
     e.preventDefault()
     try {
-      await axios.post('http://services.blazepxel.com/api/contact', form)
-      this.setState({form: {name: '', email: '', subject: '', message: ''}})
+      await axios.post('https://services.blazepxel.com/api/contact', form)
+      this.setState({form: {name: '', email: '', subject: '', message: ''}, loading: false})
+      toast.success('¡Listo!, pronto nos pondremos en contacto contigo', {
+        position: toast.POSITION.TOP_RIGHT
+      })
     } catch (e) {
       console.log(e)
     }
   }
 
   render () {
-    var {form} = this.state
+    var {form, loading} = this.state
 
-    return (
+    return (<div>
+      <ToastContainer />
         <form onSubmit={(e) => this.handleSubmit(e)}>
 
           <div className='field is-horizontal'>
@@ -103,13 +115,15 @@ class Contact extends Component {
             </div>
           </div>
 
-          <div className='control'>
-            <button className='button is-fullwidth is-success'>
-              <label>Enviar</label>
-            </button>
+          <div className='control is-flex-center'>
+            {
+              loading ? (<Spinner name="circle" color="white"/>) : (<button className='button is-fullwidth is-success'>
+                Enviar
+              </button>)
+            }
           </div>
         </form>
-    )
+      </div>)
   }
 }
 
